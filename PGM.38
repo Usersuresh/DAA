@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+// Function to generate the list of factors for a given number n using recursion
+void generateFactors(int n, int i) {
+    if (i > n / 2) {
+        return; // Base case: stop recursion when i exceeds n/2
+    }
+
+    if (n % i == 0) {
+        printf("%d ", i); // Print the factor
+    }
+
+    generateFactors(n, i + 1); // Recur with the next value of i
+}
+
+int main() {
+    int n;
+
+    printf("Enter a number: ");
+    scanf("%d", &n);
+
+    printf("Factors of %d: 1 ", n);
+    generateFactors(n, 2); // Start with i = 2 since 1 is always a factor
+
+    printf("%d\n", n); // n itself is also a factor
+
+    return 0;
+}
