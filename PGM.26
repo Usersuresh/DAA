@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <limits.h>
+
+#define V 4 // Number of vertices in the graph
+
+// Function to find the minimum of two values
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
+
+// Function to find the shortest path using dynamic programming
+int tsp(int graph[V][V], int mask, int pos, int dp[][V]) {
+    // If all vertices have been visited
+    if (mask == (1 << V) - 1) {
+        return graph[pos][0]; // Return to starting city
+    }
+
+    // If the subproblem has already been solved
+    if (dp[mask][pos] != -1) {
+        return dp[mask][pos];
+    }
+
+    int ans = INT_MAX;
+
+    // Try all unvisited cities
+    for (int city = 0; city < V; city++) {
+        if (!(mask & (1 << city))) { // If city has not been visited
+            int newAns = graph[pos][city] + tsp(graph, mask | (1 << city), city, dp);
+            ans = min(ans, newAns);
+        }
+    }
+
+    return dp[mask][pos] = ans;
+}
+
+int main() {
+    int graph[V][V]; // Adjacency matrix representation of the graph
+    int dp[1 << V][V]; // DP array to store computed values
+    int i, j;
+
+    // Input from the user - the adjacency matrix of the graph
+    printf("Enter the adjacency matrix of the graph (%d x %d):\n", V, V);
+    for (i = 0; i < V; i++) {
+        for (j = 0; j < V; j++) {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    // Initialize DP array
+    for (i = 0; i < (1 << V); i++) {
+        for (j = 0; j < V; j++) {
+            dp[i][j] = -1;
+        }
+    }
+
+    // Find the minimum cost using dynamic programming
+    int min_cost = tsp(graph, 1, 0, dp);
+
+    // Output the minimum cost
+    printf("The minimum cost of the Traveling Salesman Problem is: %d\n", min_cost);
+
+    return 0;
+}
