@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+#define MAX_SIZE 10
+
+void inputMatrix(int n, int matrix[MAX_SIZE][MAX_SIZE]) {
+    printf("Enter the cost matrix:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+}
+
+void printMatrix(int n, int matrix[MAX_SIZE][MAX_SIZE]) {
+    printf("Cost matrix:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%d\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int n;
+
+    printf("Enter the number of nodes: ");
+    scanf("%d", &n);
+
+    if (n <= 0 || n > MAX_SIZE) {
+        printf("Invalid input for the number of nodes.\n");
+        return 1;
+    }
+
+    int costMatrix[MAX_SIZE][MAX_SIZE];
+
+    inputMatrix(n, costMatrix);
+    printMatrix(n, costMatrix);
+
+    // Implement your algorithm to find the optimal cost here
+
+    return 0;
+}
