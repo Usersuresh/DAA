@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <limits.h>
+
+// Function to find the minimum of two values
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
+
+// Function to find the optimal binary search tree cost
+int optimalBSTCost(int keys[], int freq[], int n) {
+    int cost[n][n];
+
+    // Initialize cost array with 0
+    for (int i = 0; i < n; i++) {
+        cost[i][i] = freq[i];
+    }
+
+    // Calculate cost for chains of increasing lengths
+    for (int L = 2; L <= n; L++) {
+        for (int i = 0; i <= n - L + 1; i++) {
+            int j = i + L - 1;
+            cost[i][j] = INT_MAX;
+
+            // Try making all keys in interval keys[i..j] as root
+            for (int r = i; r <= j; r++) {
+                // Calculate cost when keys[r] becomes root of this subtree
+                int c = ((r > i) ? cost[i][r - 1] : 0) +
+                        ((r < j) ? cost[r + 1][j] : 0) +
+                        freq[r];
+
+                // Update cost if current root gives better solution
+                if (c < cost[i][j]) {
+                    cost[i][j] = c;
+                }
+            }
+        }
+    }
+
+    return cost[0][n - 1];
+}
+
+int main() {
+    int n;
+    printf("Enter the number of keys: ");
+    scanf("%d", &n);
+
+    int keys[n], freq[n];
+    printf("Enter the keys and their frequencies:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d %d", &keys[i], &freq[i]);
+    }
+
+    int minCost = optimalBSTCost(keys, freq, n);
+    printf("The optimal cost of the binary search tree is: %d\n", minCost);
+
+    return 0;
+}
