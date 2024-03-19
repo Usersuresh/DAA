@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+// Function to print the pattern recursively
+void printPattern(int n, int i, int j) {
+    // Base case: If we have printed all rows
+    if (i == n) {
+        return;
+    }
+
+    // If we have printed all columns in the current row
+    if (j == i + 1) {
+        printf("\n");
+        printPattern(n, i + 1, 1);
+        return;
+    }
+
+    // Print the current number and move to the next column
+    printf("%d ", j);
+    printPattern(n, i, j + 1);
+}
+
+int main() {
+    int n;
+
+    // Input the value of n
+    printf("Enter the value of n: ");
+    scanf("%d", &n);
+
+    // Print the pattern recursively
+    printPattern(n, 0, 1);
+
+    return 0;
+}
