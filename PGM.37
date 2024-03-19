@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+#define MAX_CONTAINERS 100
+
+void computeContainerLoader(int n, int containers[]) {
+    int minWeight = containers[0], maxWeight = containers[0];
+    float avgWeight, totalWeight = 0;
+
+    for (int i = 0; i < n; i++) {
+        totalWeight += containers[i];
+        if (containers[i] < minWeight)
+            minWeight = containers[i];
+        if (containers[i] > maxWeight)
+            maxWeight = containers[i];
+    }
+
+    avgWeight = totalWeight / n;
+
+    printf("Minimum Weight: %d\n", minWeight);
+    printf("Maximum Weight: %d\n", maxWeight);
+    printf("Average Weight: %.2f\n", avgWeight);
+}
+
+int main() {
+    int n, containers[MAX_CONTAINERS];
+
+    printf("Enter the number of containers: ");
+    scanf("%d", &n);
+
+    printf("Enter the weights of the containers:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Container %d weight: ", i + 1);
+        scanf("%d", &containers[i]);
+    }
+
+    computeContainerLoader(n, containers);
+
+    return 0;
+}
