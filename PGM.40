@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define V 5
+
+void printSolution(int path[]);
+
+// Check if the vertex v can be added at index 'pos' in the Hamiltonian Circuit
+bool isSafe(int v, bool graph[V][V], int path[], int pos) {
+    // Check if this vertex is adjacent to the previously added vertex and not already included in the path
+    if (!graph[path[pos - 1]][v]) {
+        return false;
+    }
+
+    // Check if the vertex has already been included
+    for (int i = 0; i < pos; i++) {
+        if (path[i] == v) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// Function to find Hamiltonian Circuit for the given graph
+bool hamiltonianCircuitUtil(bool graph[V][V], int path[], int pos) {
+    // Base case: if all vertices are included in the Hamiltonian Circuit
+    if (pos == V) {
+        // And if there is an edge from the last included vertex to the first vertex
+        if (graph[path[pos - 1]][path[0]]) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Try different vertices as the next candidate in the Hamiltonian Circuit
+    for (int v = 1; v < V; v++) {
+        // Check if vertex v can be added to the Hamiltonian Circuit
+        if (isSafe(v, graph, path, pos)) {
+            path[pos] = v; // Add vertex v to the path
+
+            // Recur to construct the rest of the path
+            if (hamiltonianCircuitUtil(graph, path, pos + 1)) {
+                return true;
+            }
+
+            // If adding vertex v doesn't lead to a solution, remove it from the path
+            path[pos] = -1;
+        }
+    }
+
+    // No Hamiltonian Circuit exists
+    return false;
+}
+
+// Function to find and print Hamiltonian Circuit in a given graph
+void hamiltonianCircuit(bool graph[V][V]) {
+    int path[V];
+
+    // Initialize all vertices as not included in the Hamiltonian Circuit
+    for (int i = 0; i < V; i++) {
+        path[i] = -1;
+    }
+
+    // Start from vertex 0 as the first vertex in the Hamiltonian Circuit
+    path[0] = 0;
+
+    // Recur to find Hamiltonian Circuit
+    if (hamiltonianCircuitUtil(graph, path, 1) == false) {
+        printf("Hamiltonian Circuit does not exist\n");
+        return;
+    }
+
+    // Print the Hamiltonian Circuit
+    printSolution(path);
+}
+
+// Function to print the solution (Hamiltonian Circuit)
+void printSolution(int path[]) {
+    printf("Hamiltonian Circuit exists: ");
+    for (int i = 0; i < V; i++) {
+        printf("%d ", path[i]);
+    }
+    printf("%d ", path[0]); // Include the starting vertex again to form a cycle
+    printf("\n");
+}
+
+int main() {
+    bool graph[V][V];
+
+    // Input the adjacency matrix representing the graph
+    printf("Enter the adjacency matrix (%d x %d) representing the graph:\n", V, V);
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    // Find and print the Hamiltonian Circuit
+    hamiltonianCircuit(graph);
+
+    return 0;
+}
