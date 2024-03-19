@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <limits.h>
+
+#define N 5
+
+int minCost = INT_MAX;
+
+bool assigned[N];
+
+void branchAndBound(int cost[N][N], int path[], int level, int totalCost) {
+    if (level == N) {
+        if (totalCost < minCost) {
+            minCost = totalCost;
+        }
+        return;
+    }
+
+    for (int i = 0; i < N; i++) {
+        if (!assigned[i]) {
+            assigned[i] = true;
+            path[level] = i;
+
+            int tempCost = totalCost + cost[level][i];
+            if (tempCost < minCost) {
+                branchAndBound(cost, path, level + 1, tempCost);
+            }
+
+            assigned[i] = false;
+        }
+    }
+}
+
+int main() {
+    int cost[N][N];
+    int path[N];
+
+    printf("Enter the cost matrix:\n");
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            scanf("%d", &cost[i][j]);
+        }
+    }
+
+    branchAndBound(cost, path, 0, 0);
+
+    printf("Minimum cost: %d\n", minCost);
+
+    return 0;
+}
