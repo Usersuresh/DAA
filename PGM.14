@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+int main() {
+    int n;
+    
+    // Taking input for the number of elements in the list
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+    
+    // Declaring an array to store the numbers
+    int nums[n];
+    
+    // Taking input for the list of numbers
+    printf("Enter %d numbers:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &nums[i]);
+    }
+    
+    // Initializing variables to store minimum and maximum values
+    int min = nums[0];
+    int max = nums[0];
+    
+    // Finding minimum and maximum values in the sequence
+    for (int i = 1; i < n; i++) {
+        if (nums[i] < min) {
+            min = nums[i];
+        }
+        if (nums[i] > max) {
+            max = nums[i];
+        }
+    }
+    
+    // Printing the minimum and maximum values
+    printf("Minimum value: %d\n", min);
+    printf("Maximum value: %d\n", max);
+    
+    return 0;
+}
