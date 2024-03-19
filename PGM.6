@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+// Function to check if a number is prime recursively
+bool isPrime(int n, int i) {
+    // Base cases
+    if (n <= 1)
+        return false;
+    if (i == 1)
+        return true;
+    
+    // Check if n is divisible by i
+    if (n % i == 0)
+        return false;
+    else
+        // Recursively check for divisibility with next number
+        return isPrime(n, i - 1);
+}
+
+int main() {
+    int num;
+    printf("Enter a number: ");
+    scanf("%d", &num);
+    
+    // Call isPrime function with initial divisor n/2
+    bool result = isPrime(num, num / 2);
+    
+    if (result)
+        printf("%d is a prime number.\n", num);
+    else
+        printf("%d is not a prime number.\n", num);
+    
+    return 0;
+}
